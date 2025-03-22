@@ -1,54 +1,63 @@
-const mongoose = require("mongoose");
-const adoptionRequest = require("../models/adoptionRequestModel");
-
-exports.createAdoptionRequest = async (req, res) => {
-  const adoptionRequest = req.body;
-  const newAdoptionRequest = new adoptionRequest(adoptionRequest);
-  try {
-    await newAdoptionRequest.save();
-    res.status(201).json(newAdoptionRequest);
-  } catch (error) {
-    res.status(409).json({ message: error.message });
-  }
-};
-
-exports.getAdoptionRequests = async (req, res) => {
-  try {
-    const adoptionRequests = await adoptionRequest.find();
-    res.status(200).json(adoptionRequests);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-};
+const AdoptionRequest = require("../models/adoptionRequestModel");
 
 exports.getAdoptionRequest = async (req, res) => {
   const { id } = req.params;
   try {
-    const adoptionRequest = await adoption;
-    Request.findById(id);
+    const adoptionRequest = await AdoptionRequest.findById(id);
     res.status(200).json(adoptionRequest);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
 
+exports.createAdoptionRequest = async (req, res) => {
+  const { adoptPetListing, user, message } = req.body;
+  try {
+    const adoptionRequest = await AdoptionRequest.createAdoptionRequest(
+      adoptPetListing,
+      user,
+      message
+    );
+    res.status(201).json(adoptionRequest);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 exports.updateAdoptionRequest = async (req, res) => {
   const { id } = req.params;
-  const adoptionRequest = req.body;
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send("No adoptionRequest with that id");
-  const updatedAdoptionRequest = await adoptionRequest.findByIdAndUpdate(
-    id,
-    { ...adoptionRequest, id },
-    { new: true }
-  );
-  res.json(updatedAdoptionRequest);
+  const { requestStatus } = req.body;
+  try {
+    const adoptionRequest = await AdoptionRequest.updateAdoptionRequest(
+      id,
+      requestStatus
+    );
+    res.status(200).json(adoptionRequest);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+exports.editAdoptionRequest = async (req, res) => {
+  const { id } = req.params;
+  const { adoptPetListing, user, message } = req.body;
+  try {
+    const adoptionRequest = await AdoptionRequest.editAdoptionRequest(
+      id,
+      message
+    );
+    res.status(200).json(adoptionRequest);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
 };
 
 exports.deleteAdoptionRequest = async (req, res) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send("No adoptionRequest with that id");
-  await adoptionRequest.findByIdAndRemove(id);
-  res.json({ message: "AdoptionRequest deleted successfully" });
+  try {
+    const adoptionRequest = await AdoptionRequest.deleteAdoptionRequest(id);
+    res.status(200).json({ message: "Adoption Request deleted successfully" });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
 };

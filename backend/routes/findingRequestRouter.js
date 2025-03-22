@@ -1,17 +1,20 @@
 const express = require("express");
 const findingRequestRouter = express.Router();
+const requireAuth = require("../middleware/requireAuth");
 const {
-  getFindingRequests,
-  getFindingRequest,
-  createFindingRequest,
-  updateFindingRequest,
-  deleteFindingRequest,
-} = require("../controllers/findingRequestController");
+  getFindingReportById,
+  createReport,
+  updateReportStatus,
+  editReport,
+  deleteReport,
+} = require("../controllers/findingReportController");
 
-findingRequestRouter.get("/", getFindingRequests);
-findingRequestRouter.get("/:id", getFindingRequest);
-findingRequestRouter.post("/", createFindingRequest);
-findingRequestRouter.patch("/:id", updateFindingRequest);
-findingRequestRouter.delete("/:id", deleteFindingRequest);
+findingRequestRouter.use(requireAuth);
+
+findingRequestRouter.get("/:id", getFindingReportById);
+findingRequestRouter.post("/", createReport);
+findingRequestRouter.patch("/status", updateReportStatus);
+findingRequestRouter.patch("/", editReport);
+findingRequestRouter.delete("/:id", deleteReport);
 
 module.exports = findingRequestRouter;

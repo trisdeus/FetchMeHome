@@ -20,34 +20,136 @@ exports.getAdoptPetListing = async (req, res) => {
   }
 };
 
-exports.createAdoptPetListing = async (req, res) => {
-  const adoptPetListing = req.body;
-  const newAdoptPetListing = new adoptPetListing(adoptPetListing);
+exports.getAdoptPetListingsByOwner = async (req, res) => {
+  const { owner } = req.params;
   try {
-    await newAdoptPetListing.save();
-    res.status(201).json(newAdoptPetListing);
+    const adoptPetListings = await adoptPetListing.find({ owner });
+    res.status(200).json(adoptPetListings);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+exports.createAdoptPetListing = async (req, res) => {
+  const { title, image, description, name, age, breed, color, owner } =
+    req.body;
+  try {
+    const newListing = await adoptPetListing.createListing(
+      title,
+      image,
+      description,
+      name,
+      age,
+      breed,
+      color,
+      owner
+    );
+    res.status(201).json(newListing);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
 };
 
-exports.updateAdoptPetListing = async (req, res) => {
-  const { id } = req.params;
-  const adoptPetListing = req.body;
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send("No adoptPetListing with that id");
-  const updatedAdoptPetListing = await adoptPetListing.findByIdAndUpdate(
-    id,
-    { ...adoptPetListing, id },
-    { new: true }
-  );
-  res.json(updatedAdoptPetListing);
+exports.editAdoptPetListing = async (req, res) => {
+  const { id, title, image, description, name, age, breed, color } = req.body;
+  try {
+    const updatedListing = await adoptPetListing.editListing(
+      id,
+      title,
+      image,
+      description,
+      name,
+      age,
+      breed,
+      color
+    );
+    res.status(200).json(updatedListing);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+exports.updateAdoptPetListingStatus = async (req, res) => {
+  const { id, status } = req.body;
+  try {
+    const updatedListing = await adoptPetListing.updateListingStatus(
+      id,
+      status
+    );
+    res.status(200).json(updatedListing);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+exports.flagAdoptPetListing = async (req, res) => {
+  const { id, flag } = req.body;
+  try {
+    const flaggedListing = await adoptPetListing.flagListing(
+      id,
+      mongoose.Types.ObjectId(flag)
+    );
+    res.status(200).json(flaggedListing);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+exports.removeAdoptPetFlag = async (req, res) => {
+  const { id, flagId } = req.body;
+  try {
+    const listing = await adoptPetListing.removeFlag(
+      id,
+      mongoose.Types.ObjectId(flagId)
+    );
+    res.status(200).json(listing);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+exports.addAdoptRequest = async (req, res) => {
+  const { id, requestId } = req.body;
+  try {
+    const listing = await adoptPetListing.addAdoptRequest(
+      id,
+      mongoose.Types.ObjectId(requestId)
+    );
+    res.status(200).json(listing);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+exports.removeAdoptRequest = async (req, res) => {
+  const { id, requestId } = req.body;
+  try {
+    const listing = await adoptPetListing.removeAdoptRequest(
+      id,
+      mongoose.Types.ObjectId(requestId)
+    );
+    res.status(200).json(listing);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+exports.removeAdoptPetListing = async (req, res) => {
+  const { id, removal } = req.params;
+  try {
+    await adoptPetListing.removeListing(id, mongoose.Types.ObjectId(removal));
+    res.status(200).json({ message: "Listing removed" });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
 };
 
 exports.deleteAdoptPetListing = async (req, res) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send("No adoptPetListing with that id");
-  await adoptPetListing.findByIdAndRemove(id);
-  res.json({ message: "AdoptPetListing deleted successfully" });
+  try {
+    await adoptPetListing.deleteListing(id);
+    res.status(200).json({ message: "Listing deleted" });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
 };

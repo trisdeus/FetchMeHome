@@ -1,6 +1,12 @@
 import React from "react";
 
-export default function Button({ text, primary = "primary", color = "white" }) {
+export default function Button({
+  type = "button",
+  text,
+  primary = "primary",
+  color = "white",
+  disabled = false,
+}) {
   const colorMap = {
     brown: "#693811",
     beige: "#dbb18d",
@@ -35,5 +41,9 @@ export default function Button({ text, primary = "primary", color = "white" }) {
   const buttonStyle =
     primary !== "secondary" ? primaryButtonStyle : secondaryButtonStyle;
 
-  return <button style={buttonStyle}>{text}</button>;
+  return (
+    <button type={type} style={buttonStyle} disabled={disabled}>
+      {text}
+    </button>
+  );
 }

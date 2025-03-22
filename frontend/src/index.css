@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Afacad:wght@400&display=swap");
+@import url("https://fonts.cdnfonts.com/css/gilroy-bold");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600&display=swap");
+
 :root {
   font-family: "Afacad", system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-size: 20px;
@@ -23,9 +27,18 @@ body {
   overflow-x: hidden;
 }
 
+h1 {
+  font-family: "Gilroy-Bold", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
 h2 {
+  font-family: "Gilroy-Medium", system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-size: 48px;
-  font-weight: 800;
+  font-weight: 500;
   margin: 0;
   padding: 0;
 }
@@ -67,7 +80,7 @@ footer ul {
 
 header ul li,
 footer ul li {
-  margin-left: 4rem;
+  margin-left: 3rem;
 }
 
 header ul li a {
@@ -77,13 +90,20 @@ header ul li a {
 }
 
 main {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin-top: 60px;
-  width: 100%;
+  width: 100vw;
+  min-height: calc(100vh - 60px);
   box-sizing: border-box;
+  background-color: #dbb18d;
 }
 
 .hero {
+  width: 100%;
+  box-sizing: border-box;
   background-image: url("./assets/images/hero.png");
   background-size: cover;
   background-position: center;
@@ -92,7 +112,6 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 170px;
   color: white;
   gap: 18px;
 }
@@ -105,7 +124,10 @@ main {
   gap: 20px;
 }
 
-.services {
+#services {
+  background-color: white;
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -114,18 +136,18 @@ main {
   padding: 0 0 0 170px;
 }
 
-.services .image {
+#services .image {
   display: flex;
 }
 
-.services .image img {
+#services .image img {
   width: 50vw;
   object-fit: cover;
   background-size: cover;
   background-position: center;
 }
 
-.services .content {
+#services .content {
   display: flex;
   flex-direction: column;
   justify-content: left;
@@ -133,7 +155,9 @@ main {
   gap: 1rem;
 }
 
-.faq {
+#faq {
+  width: 100%;
+  box-sizing: border-box;
   background-color: #dbb18d;
   color: #181725;
   display: flex;
@@ -173,6 +197,113 @@ main {
   width: 100%;
 }
 
+.form-container {
+  width: calc(100% - 340px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: flex-start;
+  gap: 32px;
+  align-self: center;
+  background-color: white;
+  color: #181725;
+  border-radius: 20px;
+  box-shadow: 0px 0px 4px 0 rgba(24, 23, 37, 0.25);
+}
+
+.form-container .form-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+  width: 67%;
+  gap: 4px;
+  padding: 60px 80px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: flex-start;
+  width: 100%;
+  gap: 40px;
+  padding: 60px 80px;
+  padding-left: 0;
+}
+
+form label {
+  color: dimgray;
+  font-size: 20px;
+}
+
+form .form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: flex-start;
+  width: 90%;
+}
+
+form input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 42px;
+  color: #181725;
+  font-family: "Afacad", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  padding: 8px;
+  border: none;
+  border-bottom: solid 1px #181725;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  list-style: none;
+  padding: 0.5rem 0;
+  margin: 0;
+  z-index: 10;
+}
+
+.dropdown-menu li {
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-menu li a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Show the dropdown when hovering on the parent */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
 button {
   display: inline-block;
   width: 180px;
@@ -184,5 +315,10 @@ button {
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-family: "Montserrat", system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 600;
+}
+
+.error {
+  color: red;
 }

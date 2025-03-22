@@ -1,17 +1,23 @@
 const express = require("express");
 const adoptionRequestRouter = express.Router();
+const requireAuth = require("../middlewares/requireAuth");
 const {
-  getAdoptionRequests,
   getAdoptionRequest,
   createAdoptionRequest,
   updateAdoptionRequest,
+  editAdoptionRequest,
   deleteAdoptionRequest,
 } = require("../controllers/adoptionRequestController");
 
-adoptionRequestRouter.get("/", getAdoptionRequests);
+adoptionRequestRouter.use(requireAuth);
+
+adoptionRequestRouter.get("/", (req, res) => {
+  res.send("Adoption Request Router");
+});
 adoptionRequestRouter.get("/:id", getAdoptionRequest);
 adoptionRequestRouter.post("/", createAdoptionRequest);
-adoptionRequestRouter.patch("/:id", updateAdoptionRequest);
+adoptionRequestRouter.patch("/update/:id", updateAdoptionRequest);
+adoptionRequestRouter.patch("/edit/:id", editAdoptionRequest);
 adoptionRequestRouter.delete("/:id", deleteAdoptionRequest);
 
 module.exports = adoptionRequestRouter;

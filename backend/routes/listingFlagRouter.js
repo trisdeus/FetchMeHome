@@ -1,17 +1,17 @@
 const express = require("express");
 const listingFlagRouter = express.Router();
+const requireAuth = require("../middlewares/requireAuth");
 const {
-  getListingFlags,
-  getListingFlag,
-  createListingFlag,
-  updateListingFlag,
-  deleteListingFlag,
+  flagListing,
+  removeFlag,
 } = require("../controllers/listingFlagController");
 
-listingFlagRouter.get("/", getListingFlags);
-listingFlagRouter.get("/:id", getListingFlag);
-listingFlagRouter.post("/", createListingFlag);
-listingFlagRouter.patch("/:id", updateListingFlag);
-listingFlagRouter.delete("/:id", deleteListingFlag);
+listingFlagRouter.use(requireAuth);
+
+listingFlagRouter.get("/", (req, res) => {
+  res.send("Listing flag router");
+});
+listingFlagRouter.post("/", flagListing);
+listingFlagRouter.delete("/:id", removeFlag);
 
 module.exports = listingFlagRouter;
