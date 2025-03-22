@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const adoptPetListing = require("../models/adoptPetListingModel");
+const AdoptPetListing = require("../models/adoptPetListingModel");
 
 exports.getAdoptPetListings = async (req, res) => {
   try {
-    const adoptPetListings = await adoptPetListing.find();
+    const adoptPetListings = await AdoptPetListing.find();
     res.status(200).json(adoptPetListings);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -13,7 +13,7 @@ exports.getAdoptPetListings = async (req, res) => {
 exports.getAdoptPetListing = async (req, res) => {
   const { id } = req.params;
   try {
-    const adoptPetListing = await adoptPetListing.findById(id);
+    const adoptPetListing = await AdoptPetListing.findById(id);
     res.status(200).json(adoptPetListing);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -23,7 +23,7 @@ exports.getAdoptPetListing = async (req, res) => {
 exports.getAdoptPetListingsByOwner = async (req, res) => {
   const { owner } = req.params;
   try {
-    const adoptPetListings = await adoptPetListing.find({ owner });
+    const adoptPetListings = await AdoptPetListing.find({ owner });
     res.status(200).json(adoptPetListings);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -34,7 +34,7 @@ exports.createAdoptPetListing = async (req, res) => {
   const { title, image, description, name, age, breed, color, owner } =
     req.body;
   try {
-    const newListing = await adoptPetListing.createListing(
+    const newListing = await AdoptPetListing.createListing(
       title,
       image,
       description,
@@ -53,7 +53,7 @@ exports.createAdoptPetListing = async (req, res) => {
 exports.editAdoptPetListing = async (req, res) => {
   const { id, title, image, description, name, age, breed, color } = req.body;
   try {
-    const updatedListing = await adoptPetListing.editListing(
+    const updatedListing = await AdoptPetListing.editListing(
       id,
       title,
       image,
@@ -72,7 +72,7 @@ exports.editAdoptPetListing = async (req, res) => {
 exports.updateAdoptPetListingStatus = async (req, res) => {
   const { id, status } = req.body;
   try {
-    const updatedListing = await adoptPetListing.updateListingStatus(
+    const updatedListing = await AdoptPetListing.updateListingStatus(
       id,
       status
     );
@@ -85,7 +85,7 @@ exports.updateAdoptPetListingStatus = async (req, res) => {
 exports.flagAdoptPetListing = async (req, res) => {
   const { id, flag } = req.body;
   try {
-    const flaggedListing = await adoptPetListing.flagListing(
+    const flaggedListing = await AdoptPetListing.flagListing(
       id,
       mongoose.Types.ObjectId(flag)
     );
@@ -98,7 +98,7 @@ exports.flagAdoptPetListing = async (req, res) => {
 exports.removeAdoptPetFlag = async (req, res) => {
   const { id, flagId } = req.body;
   try {
-    const listing = await adoptPetListing.removeFlag(
+    const listing = await AdoptPetListing.removeFlag(
       id,
       mongoose.Types.ObjectId(flagId)
     );
@@ -111,7 +111,7 @@ exports.removeAdoptPetFlag = async (req, res) => {
 exports.addAdoptRequest = async (req, res) => {
   const { id, requestId } = req.body;
   try {
-    const listing = await adoptPetListing.addAdoptRequest(
+    const listing = await AdoptPetListing.addAdoptRequest(
       id,
       mongoose.Types.ObjectId(requestId)
     );
@@ -124,7 +124,7 @@ exports.addAdoptRequest = async (req, res) => {
 exports.removeAdoptRequest = async (req, res) => {
   const { id, requestId } = req.body;
   try {
-    const listing = await adoptPetListing.removeAdoptRequest(
+    const listing = await AdoptPetListing.removeAdoptRequest(
       id,
       mongoose.Types.ObjectId(requestId)
     );
@@ -137,7 +137,7 @@ exports.removeAdoptRequest = async (req, res) => {
 exports.removeAdoptPetListing = async (req, res) => {
   const { id, removal } = req.params;
   try {
-    await adoptPetListing.removeListing(id, mongoose.Types.ObjectId(removal));
+    await AdoptPetListing.removeListing(id, mongoose.Types.ObjectId(removal));
     res.status(200).json({ message: "Listing removed" });
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -147,7 +147,7 @@ exports.removeAdoptPetListing = async (req, res) => {
 exports.deleteAdoptPetListing = async (req, res) => {
   const { id } = req.params;
   try {
-    await adoptPetListing.deleteListing(id);
+    await AdoptPetListing.deleteListing(id);
     res.status(200).json({ message: "Listing deleted" });
   } catch (error) {
     res.status(404).json({ message: error.message });
